@@ -8,53 +8,73 @@
 
 import SwiftUI
 
+struct ChecklistItem {
+    var name: String
+    var isChecked = false
+}
+
 struct ContentView: View {
+    @State var checklistItems = [
+        ChecklistItem(name: "Walk the dog"),
+        ChecklistItem(name:"Brush my teeth"),
+        ChecklistItem(name:"Learn iOS development", isChecked: true),
+        ChecklistItem(name:"Soccer practice"),
+        ChecklistItem(name:"Eat ice cream", isChecked: true),
+    ]
+    
+    var myArray = [
+        "This is an item",
+        "This is another item",
+        "Third item!",
+    ]
+    
+    
     var body: some View {
-        NavigationView {
-            List {
-                Section(header: Text("Hight priority")) {
-                    Group {
-                        Text("Walk the dog")
-                        Text("Brush my teech")
-                        Text("Learn iOS development")
-                        Text("Walk the dog")
-                        Text("Brush my teech")
-                        Text("Learn iOS development")
-                        
+      //  NavigationView {
+            //ForEach(checklistItems, id: \.self.name) { checklistItem in
+              ForEach(checklistItems, id: \.self.name) { checklistItem in
+                HStack {
+                    Text(checklistItem.name)
+                    Spacer()
+                    if checklistItems.isChecked {
+                        Text("✅")
+                    } else {
+                        Text("◻⃞")
                     }
-                    
-                    
-                    Group {
-                        Text("Walk the dog")
-                        Text("Brush my teech")
-                        Text("Learn iOS development")
-                        Text("Learn iOS development")
-                        Text("Learn iOS development")
-                    }
-                    
-                    
                 }
-                Section(header: Text("Low priority")) {
-                    Text("Soccer practice")
-                    Text("Eat ice cream")
-                    Text("Eat ice cream")
-                    Text("Soccer practice")
-                    Text("Eat ice cream")
-                    Text("Eat ice cream")
-                    Text("Soccer practice")
-                    Text("Eat ice cream")
-                    Text("Eat ice cream")
-                    Text("Eat ice cream")
-                }
-                
             }
-        .listStyle(GroupedListStyle())
-        .navigationBarTitle("Checklist")
+//            onDelete(perform: deleteListItem)
+//            .onMove(perform: moveListItem)
+//
+//                .navigationBarItems(trailing: EditButton())
+//                .navigationBarTitle("Checklist")
+//                .onAppear() {
+//
+//                    self.printChecklistContents()
+                }
+
+  //   }
+   
+    
+
+    func printChecklistContents() {
+        for item in checklistItems {
+            print(item)
         }
     }
     
-}
+    func deleteListItem(whichElement: IndexSet) {
+        checklistItems.remove(atOffsets: whichElement)
+        printChecklistContents()
+    }
+    
+    
+    func moveListItem(whichElement: IndexSet, destination: Int) {
+        checklistItems.move(fromOffsets: whichElement, toOffset: destination)
+        printChecklistContents()
+    }
 
+ }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
