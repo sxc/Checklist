@@ -8,54 +8,54 @@
 
 import SwiftUI
 
-struct ChecklistItem {
+struct ChecklistItem: Identifiable {
+    let id = UUID()
     var name: String
     var isChecked = false
 }
 
 struct ContentView: View {
+    // Properties
+    // ==========
+    
     @State var checklistItems = [
-        ChecklistItem(name: "Walk the dog"),
-        ChecklistItem(name:"Brush my teeth"),
-        ChecklistItem(name:"Learn iOS development", isChecked: true),
-        ChecklistItem(name:"Soccer practice"),
-        ChecklistItem(name:"Eat ice cream", isChecked: true),
-    ]
+          ChecklistItem(name: "Walk the dog", isChecked: false),
+          ChecklistItem(name: "Brush my teeth", isChecked: false),
+          ChecklistItem(name: "Learn iOS development", isChecked: true),
+          ChecklistItem(name: "Soccer practice", isChecked: false),
+          ChecklistItem(name: "Eat ice cream", isChecked: false),
+        ]
     
-    var myArray = [
-        "This is an item",
-        "This is another item",
-        "Third item!",
-    ]
-    
-    
+    // User interface content and layout
     var body: some View {
-      //  NavigationView {
-            //ForEach(checklistItems, id: \.self.name) { checklistItem in
-              ForEach(checklistItems, id: \.self.name) { checklistItem in
-                HStack {
-                    Text(checklistItem.name)
-                    Spacer()
-                    if checklistItems.isChecked {
-                        Text("✅")
-                    } else {
-                        Text("◻⃞")
+        NavigationView {
+            List {
+                ForEach(checklistItems) { checklistItem in
+                    HStack {
+                        Text(checklistItem.name)
+                        Spacer()
+                        Text(checklistItem.isChecked ? "✅" : "◻⃞")
+                        }
+                    .onTapGesture {
+                        print("checklistitem name: \(checklistItem.name)")
                     }
+                  }
+                    .onDelete(perform: deleteListItem)
+                    .onMove(perform: moveListItem)
                 }
-            }
-//            onDelete(perform: deleteListItem)
-//            .onMove(perform: moveListItem)
-//
-//                .navigationBarItems(trailing: EditButton())
-//                .navigationBarTitle("Checklist")
-//                .onAppear() {
-//
-//                    self.printChecklistContents()
+                .navigationBarItems(trailing: EditButton())
+                .navigationBarTitle("Checklist")
+                .onAppear() {
+                        self.printChecklistContents()
                 }
+            
 
-  //   }
+        }
    
+    }
     
+    // Methods
+    // =======
 
     func printChecklistContents() {
         for item in checklistItems {
