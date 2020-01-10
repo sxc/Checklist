@@ -35,14 +35,21 @@ struct ContentView: View {
                         Text(checklistItem.name)
                         Spacer()
                         Text(checklistItem.isChecked ? "✅" : "◻⃞")
-                        }
+                    }
+                    .background(Color.white) // This makes the entire row clickable
+                        
                     .onTapGesture {
-                        print("checklistitem name: \(checklistItem.name)")
+                        if let matchingIndex = self.checklistItems.firstIndex(where: {
+                            $0.id == checklistItem.id
+                        }) {
+                            self.checklistItems[matchingIndex].isChecked.toggle()
+                        }
+                        self.printChecklistContents()
                     }
                   }
                     .onDelete(perform: deleteListItem)
                     .onMove(perform: moveListItem)
-                }
+                    }
                 .navigationBarItems(trailing: EditButton())
                 .navigationBarTitle("Checklist")
                 .onAppear() {
