@@ -23,11 +23,7 @@ struct ChecklistView: View {
         NavigationView {
             List {
                 ForEach(checklist.items) { checklistItem in
-                    HStack {
-                        Text(checklistItem.name)
-                        Spacer()
-                        Text(checklistItem.isChecked ? "✅" : "◻⃞")
-                    }
+                    RowView(checklistItem: checklistItem)
                     .background(Color.white) // This makes the entire row clickable
                     .onTapGesture {
                         if let matchingIndex = self.checklist.items.firstIndex(where: {
