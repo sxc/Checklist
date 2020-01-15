@@ -22,18 +22,10 @@ struct ChecklistView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(checklist.items) { checklistItem in
-                    RowView(checklistItem: checklistItem)
-                    .background(Color.white) // This makes the entire row clickable
-                    .onTapGesture {
-                        if let matchingIndex = self.checklist.items.firstIndex(where: {
-                            $0.id == checklistItem.id
-                        }) {
-                            self.checklist.items[matchingIndex].isChecked.toggle()
-                        }
-                        self.checklist.printChecklistContents()
-                    }
-                  }
+                ForEach(checklist.items) { index in
+                    RowView(checklistItem: self.$checklist.items[index])
+                }
+                        
                 .onDelete(perform: checklist.deleteListItem)
                 .onMove(perform: checklist.moveListItem)
                     }
