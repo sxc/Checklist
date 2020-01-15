@@ -40,7 +40,8 @@ struct ChecklistView: View {
                 
                 .navigationBarTitle("Checklist", displayMode: .inline)
                 .onAppear() {
-                        self.checklist.printChecklistContents()
+                    self.checklist.printChecklistContents()
+                    self.checklist.saveListItems()
                 }
         }
          .sheet(isPresented: $newChecklistItemViewIsVisible) {
